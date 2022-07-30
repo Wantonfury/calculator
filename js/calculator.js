@@ -54,9 +54,9 @@ let operate = op => {
         storedValues[0] = displayValue;
         storedValues[1] = "";
         displayValue = "0";
-        
-        displayRequireInput = true;
     }
+    
+    displayRequireInput = true;
 }
 
 let opClear = () => {
