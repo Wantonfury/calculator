@@ -1,0 +1,94 @@
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+    background-color: #212529;
+    
+    padding: 0px;
+    margin: 0px;
+}
+
+#header, #footer {
+    background-color: #343A40;
+    width: 100%;
+    color: #E9ECEF;
+    text-align: center;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+    background-color: #495057;
+    
+    width: 450px;
+    height: 600px;
+    
+    margin: 48px 0px;
+    padding: 24px 0px;
+    border-radius: 12px;
+}
+
+#screen {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+    background-color: #F8F9FA;
+    color: #212529;
+    border: 2px solid #212529;
+    
+    
+    width: 80%;
+    height: 20%;
+}
+
+#screen-text {
+    padding: 0px 12px;
+    font-size: 48px;
+}
+
+#keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    
+    height: 80%;
+    width: 80%;
+    
+    border: 2px solid #212529;
+}
+
+#keypad > button:nth-last-child(3) {
+    grid-column: span 2;
+}
+
+#keypad button {
+    background-color: #ADB5BD;
+    font-size: 24px;
+}
+
+#keypad > button:nth-child(1),
+#keypad > button:nth-child(2),
+#keypad > button:nth-child(3),
+#keypad > button:nth-child(4),
+#keypad > button:nth-child(8),
+#keypad > button:nth-child(12),
+#keypad > button:nth-child(16),
+#keypad > button:nth-child(19)
+{
+    background-color: #CED4DA;
+}
+
+#keypad button:hover {
+    background-color: #E9ECEF;
+}
+
+#keypad button:active {
+    transform: scale(0.975);
+    transition: 50ms;
+}
