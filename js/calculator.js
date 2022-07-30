@@ -2,19 +2,18 @@ let screen = document.querySelector("#screen-text");
 let screenSubtext = document.querySelector("#screen-subtext");
 
 let displayValue = "0";
-let displayStored = "";
-let storedValue = "";
+let storedValues = ["", ""];
 let storedOperator = "";
 
-let displayReplace = true;
+let displayRequireInput = true;
 
 let calculate = () => {
-    if (storedOperator == "") return;
+    if (!storedOperator || displayRequireInput) return;
     
-    let a = parseFloat(storedValue);
+    let a = parseFloat(storedValues[0]);
     let b = parseFloat(displayValue);
     
-    displayStored += " " + displayValue + " =";
+    storedValues[1] = displayValue;
     
     switch (storedOperator) {
         case "+":
@@ -31,47 +30,59 @@ let calculate = () => {
             break;
     }
     
-    storedValue = "";
-    storedOperator = "";
-    
-    displayReplace = true;
+    displayRequireInput = true;
 }
 
 let operate = op => {
-    if (storedOperator != "") calculate();
+    if (displayRequireInput) {
+        if (storedValues[0]) {
+            storedValues[0] = displayValue;
+            storedValues[1] = "";
+            storedOperator = op;
+        }
+        return;
+    }
     
-    storedOperator = op;
-    storedValue = displayValue;
-    displayStored = displayValue + " " + storedOperator;
-    displayValue = "0";
-    
-    displayReplace = true;
+    if (storedOperator) {
+        calculate();
+        storedValues[0] = displayValue;
+        storedValues[1] = "";
+        storedOperator = op;
+    }
+    else {
+        storedOperator = op;
+        storedValues[0] = displayValue;
+        storedValues[1] = "";
+        displayValue = "0";
+        
+        displayRequireInput = true;
+    }
 }
 
 let opClear = () => {
     displayValue = "0";
-    displayStored = "";
-    storedValue = "";
+    storedValues = ["", ""];
     storedOperator = "";
-    displayReplace = true;
+    displayRequireInput = true;
 }
 
 let opSign = () => {
-    if (displayValue == "0") return;
+    if (displayValue == "0" || displayRequireInput) return;
     
     if (displayValue[0] != "-") displayValue = "-" + displayValue;
     else displayValue = displayValue.substring(1);
 }
 
 let opPercent = () => {
-    if (displayValue == "0") return;
-    displayValue = "0.0" + displayValue;
+    if (displayValue == "0" || displayRequireInput) return;
+    displayValue = (displayValue[0] == "-" ? "-0.0" : "0.0") + displayValue.replace(".", "").replace("-", "");
 }
 
 let btnNumber = e => {
-    if (displayReplace) {
+    if (displayRequireInput && e.target.dataset.key == "0") return;
+    if (displayRequireInput) {
         displayValue = e.target.dataset.key;
-        displayReplace = false;
+        displayRequireInput = false;
     }
     else displayValue = displayValue + e.target.dataset.key;
     
@@ -101,7 +112,7 @@ let btnOperator = e => {
 }
 
 let display = () => {
-    screenSubtext.textContent = displayStored;
+    screenSubtext.textContent = storedValues[0] + (storedOperator ? ` ${storedOperator} ` : '') + storedValues[1];
     screen.textContent = displayValue;
 }
 
